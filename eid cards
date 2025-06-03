@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>بطاقة تهنئة عيد الأضحى</title>
+  <style>
+    body { font-family: 'Cairo', sans-serif; text-align: center; direction: rtl; }
+    canvas { border: 1px solid #ccc; margin-top: 20px; }
+    input, button { margin-top: 10px; font-size: 16px; padding: 5px; }
+  </style>
+</head>
+<body>
+
+  <h2>أدخل اسمك لتوليد بطاقة التهنئة</h2>
+  <input type="text" id="nameInput" placeholder="اكتب اسمك هنا">
+  <br>
+  <button onclick="generateCard()">توليد البطاقة</button>
+  <br>
+  <canvas id="cardCanvas" width="1240" height="1754"></canvas>
+  <br>
+  <button onclick="downloadCard()">تحميل البطاقة</button>
+
+  <script>
+    const canvas = document.getElementById('cardCanvas');
+    const ctx = canvas.getContext('2d');
+    const backgroundImage = new Image();
+    backgroundImage.src = 'adha_card_template.png'; // تأكد من رفع الصورة إلى نفس مجلد الصفحة
+
+    backgroundImage.onload = () => {
+      ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+    };
+
+    function generateCard() {
+      const name = document.getElementById('nameInput').value;
+      ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+      ctx.font = '48px Cairo';
+      ctx.fillStyle = '#000';
+      ctx.textAlign = 'center';
+      ctx.fillText(name, canvas.width / 2, 760); // ← عدّل هذا حسب موقع الاسم في التصميم
+    }
+
+    function downloadCard() {
+      const link = document.createElement('a');
+      link.download = 'تهنئة-عيد-الأضحى.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+
+</body>
+</html>
